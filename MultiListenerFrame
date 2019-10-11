@@ -1,0 +1,104 @@
+import java.awt.EventQueue;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
+import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.awt.event.ActionEvent;
+import javax.swing.text.NumberFormatter;
+import java.awt.Label;
+import java.awt.Font;
+import java.util.ArrayList;
+
+
+public class MultiListenerFrame extends JFrame implements ActionListener {
+
+    private JFrame frame;
+    private JFormattedTextField numberField;
+
+    Label label;
+    int index = 0;
+    int Array;
+    static ArrayList<Double> num;
+
+    static {
+        num = new ArrayList<>();
+    }
+
+    public static void main(String[] args) {
+        EventQueue.invokeLater(() -> {
+            try {
+                MultiListenerFrame window = new MultiListenerFrame();
+                window.frame.setVisible(true);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+    }
+    public MultiListenerFrame() {
+
+        initialize();
+
+    }
+
+    private void initialize() {
+
+        frame = new JFrame();
+        frame.setBounds(600, 200, 450, 185);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.getContentPane().setLayout(null);
+
+
+        NumberFormat number = new DecimalFormat("##0.###");
+        numberField = new JFormattedTextField(new NumberFormatter(number));
+
+        numberField.setBounds(0, 0, 134, 31);
+        frame.getContentPane().add(numberField);
+        //numberField.setColumns(10);
+
+        JButton btnNewButton = new JButton("Dodaj");
+
+        btnNewButton.addActionListener(e -> {
+
+
+                double inputNum = Double.parseDouble(numberField.getText());
+                numberField.setText("");
+
+                num.add(inputNum);
+                label.setText("Zbior liczb: " + num);
+
+        });
+        btnNewButton.setBounds(132, 0, 104, 31);
+        frame.getContentPane().add(btnNewButton);
+
+        JButton btnNewButton_1 = new JButton("Mediana");
+        btnNewButton_1.setBounds(236, 0, 104, 31);
+        frame.getContentPane().add(btnNewButton_1);
+
+        label = new Label(" ");
+        label.setFont(new Font("Dialog", Font.PLAIN, 16));
+        label.setBounds(10, 69, 412, 37);
+        frame.getContentPane().add(label);
+
+        JLabel lblNewLabel = new JLabel(" ");
+        lblNewLabel.setBounds(345, 0, 75, 31);
+        frame.getContentPane().add(lblNewLabel);
+
+        btnNewButton_1.addActionListener(e -> {
+
+            num.sort((a,b)-> (int)(a-b));
+            double mediana = num.get(1);
+            lblNewLabel.setText(" = " + mediana);
+
+            label.setText("Zbior liczb: " + num);
+
+        });
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
+    }
+}
